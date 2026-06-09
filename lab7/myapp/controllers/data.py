@@ -2,7 +2,7 @@
 
 from myapp.models import App, Author, Currency, User, UserCurrency
 
-MAIN_AUTHOR = Author(name="Калинин Игорь", group="ПРОГ-3")
+MAIN_AUTHOR = Author(name="Калинин Игорь", group="ИВТ-2")
 MAIN_APP = App(name="CurrenciesListApp", version="1.0", author=MAIN_AUTHOR)
 
 USERS = [
@@ -32,4 +32,3 @@ NAVIGATION = [
     {"caption": "Валюты", "href": "/currencies"},
     {"caption": "Автор", "href": "/author"},
 ]
-

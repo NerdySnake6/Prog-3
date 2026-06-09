@@ -14,11 +14,11 @@ class ModelTests(unittest.TestCase):
 
     def test_author_and_app(self) -> None:
         """Автор и приложение должны сохранять переданные значения."""
-        author = Author("Игорь", "ПРОГ-3")
+        author = Author("Игорь", "ИВТ-2")
         app = App("CurrenciesListApp", "1.0", author)
 
         self.assertEqual(app.name, "CurrenciesListApp")
-        self.assertEqual(app.author.group, "ПРОГ-3")
+        self.assertEqual(app.author.group, "ИВТ-2")
 
     def test_user_validation(self) -> None:
         """Пользователь не должен создаваться с плохими данными."""
@@ -48,4 +48,3 @@ class ModelTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
