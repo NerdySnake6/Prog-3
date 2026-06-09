@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel">
+    <h2>Главная страница</h2>
+    <p>
+        Это простое приложение показывает курсы валют и подписки пользователей.
+        Оно сделано на Python через HTTPServer и Jinja2.
+    </p>
+    <dl>
+        <dt>Автор</dt>
+        <dd>{{ author.name }}</dd>
+        <dt>Группа</dt>
+        <dd>{{ author.group }}</dd>
+    </dl>
+</section>
+{% endblock %}
+

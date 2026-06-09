@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel">
+    <h2>Пользователи</h2>
+    <ul class="user-list">
+        {% for user in users %}
+            <li>
+                <span>{{ user.name }}</span>
+                <a href="/user?id={{ user.id }}">Открыть</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
+

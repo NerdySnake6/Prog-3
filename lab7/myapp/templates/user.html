@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel">
+    <h2>Пользователь: {{ user.name }}</h2>
+
+    {% if error_message %}
+        <p class="warning">
+            Не получилось загрузить свежие курсы: {{ error_message }}
+            Показаны учебные данные.
+        </p>
+    {% endif %}
+
+    <h3>Подписки</h3>
+    {% if subscriptions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Код</th>
+                    <th>Название</th>
+                    <th>Номинал</th>
+                    <th>Курс</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for currency in subscriptions %}
+                    <tr>
+                        <td>{{ currency.char_code }}</td>
+                        <td>{{ currency.name }}</td>
+                        <td>{{ currency.nominal }}</td>
+                        <td>{{ "%.4f"|format(currency.value) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>У пользователя пока нет подписок.</p>
+    {% endif %}
+</section>
+
+{% if subscriptions %}
+<section class="panel">
+    <h3>Динамика за последние 3 месяца</h3>
+    <canvas id="currencyChart" width="760" height="320"></canvas>
+</section>
+
+<script>
+    const chartData = {{ chart_data|tojson }};
+    const canvas = document.getElementById("currencyChart");
+    const context = canvas.getContext("2d");
+    const colors = ["#1f7a8c", "#bf4342", "#4f772d", "#6d597a"];
+
+    function drawChart() {
+        const width = canvas.width;
+        const height = canvas.height;
+        const padding = 48;
+        const values = chartData.items.flatMap((item) => item.values);
+        const minValue = Math.min(...values);
+        const maxValue = Math.max(...values);
+        const valueRange = maxValue - minValue || 1;
+
+        context.clearRect(0, 0, width, height);
+        context.strokeStyle = "#d7dee8";
+        context.lineWidth = 1;
+        context.beginPath();
+        context.moveTo(padding, padding);
+        context.lineTo(padding, height - padding);
+        context.lineTo(width - padding, height - padding);
+        context.stroke();
+
+        chartData.labels.forEach((label, index) => {
+            const x = padding + index * ((width - padding * 2) / 2);
+            context.fillStyle = "#2f3a4a";
+            context.fillText(label, x - 35, height - 18);
+        });
+
+        chartData.items.forEach((item, itemIndex) => {
+            context.strokeStyle = colors[itemIndex % colors.length];
+            context.fillStyle = colors[itemIndex % colors.length];
+            context.lineWidth = 3;
+            context.beginPath();
+
+            item.values.forEach((value, index) => {
+                const x = padding + index * ((width - padding * 2) / 2);
+                const y = height - padding
+                    - ((value - minValue) / valueRange) * (height - padding * 2);
+
+                if (index === 0) {
+                    context.moveTo(x, y);
+                } else {
+                    context.lineTo(x, y);
+                }
+                context.fillRect(x - 3, y - 3, 6, 6);
+            });
+
+            context.stroke();
+            context.fillText(item.name, width - padding - 35, 28 + itemIndex * 18);
+        });
+    }
+
+    drawChart();
+</script>
+{% endif %}
+{% endblock %}
+

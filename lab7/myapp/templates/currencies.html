@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel">
+    <div class="title-row">
+        <h2>Курсы валют</h2>
+        <a class="button" href="/currencies?update=1">Обновить</a>
+    </div>
+
+    {% if error_message %}
+        <p class="warning">
+            Не получилось загрузить свежие курсы: {{ error_message }}
+            Показаны учебные данные.
+        </p>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Цифровой код</th>
+                <th>Код</th>
+                <th>Название</th>
+                <th>Номинал</th>
+                <th>Курс</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for currency in currencies %}
+                <tr>
+                    <td>{{ currency.id }}</td>
+                    <td>{{ currency.num_code }}</td>
+                    <td>{{ currency.char_code }}</td>
+                    <td>{{ currency.name }}</td>
+                    <td>{{ currency.nominal }}</td>
+                    <td>{{ "%.4f"|format(currency.value) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
+
