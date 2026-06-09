@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="panel">
+    <h2>Пользователь: {{ user.name }}</h2>
+    <h3>Подписки на валюты</h3>
+
+    {% if currencies %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Код</th>
+                    <th>Название</th>
+                    <th>Курс</th>
+                    <th>Номинал</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for currency in currencies %}
+                    <tr>
+                        <td>{{ currency.id }}</td>
+                        <td>{{ currency.char_code }}</td>
+                        <td>{{ currency.name }}</td>
+                        <td>{{ "%.2f"|format(currency.value) }}</td>
+                        <td>{{ currency.nominal }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>У пользователя нет подписок.</p>
+    {% endif %}
+</section>
+{% endblock %}
+

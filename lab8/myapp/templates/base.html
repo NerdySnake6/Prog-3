@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ app.name }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header class="top">
+        <div>
+            <h1>{{ app.name }}</h1>
+            <p>Версия {{ app.version }}</p>
+        </div>
+        <nav>
+            {% for item in navigation %}
+                <a href="{{ item.href }}">{{ item.caption }}</a>
+            {% endfor %}
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
+
